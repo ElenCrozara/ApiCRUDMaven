@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.sun.org.apache.xpath.internal.compiler.Token.contains;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.lessThan;
 
 public class ApiTest {
@@ -31,10 +33,12 @@ public class ApiTest {
         .then()
                 .log().all()
                 .statusCode(200)
-                .body("name", equalTo("Carol"))
+                .body("id", equalTo(1984121100))
+                .body("name", equalTo("Preto"))
                 .body("status", equalTo("available"))
                 .time(lessThan(2000L))
-
+                .body("category.name", containsString("dog"))
+                .body("tags.id", hasItem(2023))
 
 
         ;
