@@ -1,0 +1,22 @@
+
+      {
+        "id": 16981,
+        "category": {
+          "id": 1,
+          "name": "dog"
+        },
+        "name": "Sara",
+        "photoUrls": [
+          "https://br.freepik.com/fotos-gratis/foto-de-estudio-de-cachorro-beagle-na-parede-amarela_15294141.htm#query=cachorro&position=15&from_view=keyword&track=sph#position=15&query=cachorro"
+        ],
+        "tags": [
+          {
+            "id": 2022,
+            "name": "string"
+          }
+        ],
+        "status": "available"
+      }
+
+
+
