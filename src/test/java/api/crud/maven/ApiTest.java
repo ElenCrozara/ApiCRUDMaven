@@ -1,5 +1,9 @@
 package api.crud.maven;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.apache.http.HttpStatus;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -9,29 +13,35 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 @FixMethodOrder(MethodSorters.JVM) // Deixa os métodos de teste na ordem retornada pela JVM.
 public class ApiTest {
+
+    @BeforeClass
+    public static void setup() {
+        baseURI = "https://petstore.swagger.io";
+        basePath = "/v2";
+    }
     public String readJson(String pathJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(pathJson)));
     }
-    String uri = "https://petstore.swagger.io/v2/pet";
+//    String uri = "https://petstore.swagger.io/v2/pet";
 
     @Test
     public void registerPets() throws IOException, ParseException {
         String jsonBody = readJson("data/register2.json");
 
         given()
-                .contentType("application/json")
+                .contentType(ContentType.JSON)
                 .log().all()
                 .body(jsonBody)
         .when()
-                .post(uri)
+                .post("/pet")
         .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .body("id", is(1698199113))
                 .body("name", is("Sara"))
                 .body("category.name", is("dog2"))
@@ -44,13 +54,13 @@ public class ApiTest {
         String petId = "1698199113";
 
         given()
-                .contentType("application/json")
                 .log().all()
+                .contentType(ContentType.JSON)
         .when()
-                .get(uri + "/" + petId)
+                .get("/pet" + "/" + petId)
         .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .time(lessThan(2000L));
         System.out.println("second");
     }
@@ -59,14 +69,14 @@ public class ApiTest {
         String jsonBody = readJson("data/register3.json");
 
         given()
-                .contentType("application/json")
                 .log().all()
+                .contentType(ContentType.JSON)
                 .body(jsonBody)
         .when()
-                .put(uri)
+                .put("/pet")
         .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .time(lessThan(2000L))
                 .body("status", is("sold"));
         System.out.println("third");
@@ -76,13 +86,13 @@ public class ApiTest {
         String petId = "1698199113";
 
         given()
-                .contentType("application/json")
                 .log().all()
+                .contentType(ContentType.JSON)
         .when()
-                .delete(uri + "/" + petId)
+                .delete("/pet" + "/" + petId)
         .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .time(lessThan(2000L))
                 .body("code", is(200))
                 .body("type", is("unknown"))
@@ -94,13 +104,13 @@ public class ApiTest {
         String petId = "1698199113";
 
         given()
-                .contentType("application/json")
                 .log().all()
+                .contentType(ContentType.JSON)
         .when()
-                .get(uri + "/" + petId)
+                .get("/pet" + "/" + petId)
         .then()
                 .log().all()
-                .statusCode(404)
+                .statusCode(HttpStatus.SC_NOT_FOUND)
                 .time(lessThan(2000L));
         System.out.println("fifth");
     }
