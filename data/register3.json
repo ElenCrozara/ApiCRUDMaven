@@ -1,6 +1,6 @@
 
       {
-        "id": 1698199113,
+        "id": 1698199,
         "category": {
           "id": 1,
           "name": "dog2"
@@ -15,7 +15,7 @@
             "name": "string"
           }
         ],
-        "status": "available"
+        "status": "sold"
       }
 
 
