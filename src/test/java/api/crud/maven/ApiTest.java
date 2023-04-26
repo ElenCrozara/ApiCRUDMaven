@@ -16,7 +16,7 @@ import java.text.ParseException;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-@FixMethodOrder(MethodSorters.JVM) // Deixa os métodos de teste na ordem retornada pela JVM.
+@FixMethodOrder(MethodSorters.JVM)
 public class ApiTest {
 
     @BeforeClass
@@ -27,7 +27,6 @@ public class ApiTest {
     public String readJson(String pathJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(pathJson)));
     }
-//    String uri = "https://petstore.swagger.io/v2/pet";
 
     @Test
     public void registerPets() throws IOException, ParseException {
